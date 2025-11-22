@@ -1,14 +1,11 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import { routes } from './routes/routes'
-import { useRoutes} from 'react-router-dom'
+import { useRoutes } from "react-router-dom";
+import { useState } from "react";
+import { routes } from './routes/routes';
 
 function App() {
-  const [count, setCount] = useState(0)
-  let router = useRoutes(routes)
-  return router
+  const [count, setCount] = useState(0);
+  let router = useRoutes(routes);
+  return router;
 }
 
-export default App
-
+export default App;
