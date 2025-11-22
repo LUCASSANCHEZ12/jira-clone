@@ -28,7 +28,6 @@ export default function Sidebar() {
     <Box
       sx={{
         width: collapsed ? 60 : 220, 
-        height: "100vh",
         bgcolor: "#ffffff",
         color: "#52534e",
         display: "flex",
@@ -94,21 +93,6 @@ export default function Sidebar() {
           </Tooltip>
         ))}
       </List>
-
-      <Box
-        sx={{
-          px: 2,
-          display: "flex",
-          justifyContent: collapsed ? "center" : "flex-start",
-          mb: 2,
-        }}
-      >
-        <Tooltip title={collapsed ? "Profile" : ""} placement="right" arrow>
-          <IconButton sx={{ color: "white" }}>
-            <HomeOutlinedIcon />
-          </IconButton>
-        </Tooltip>
-      </Box>
     </Box>
   );
 }

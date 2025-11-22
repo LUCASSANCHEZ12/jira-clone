@@ -21,12 +21,15 @@ export default function AppLayout() {
           <Sidebar />
         </Grid>
         <Grid
-            xs
-            sx={{
-              backgroundColor: "#F4F5F7", // fondo estilo Jira
-              minHeight: "100vh",
-              p: 3,
-            }}
+          item
+          sx={{
+            flexGrow: 1,                 // ocupa todo el espacio restante
+            display: "flex",
+            flexDirection: "column",     // contenido vertical dentro
+            backgroundColor: "#F4F5F7",
+            minHeight: "100vh",
+            p: 3,
+          }}
         >
           <Content />
         </Grid>
