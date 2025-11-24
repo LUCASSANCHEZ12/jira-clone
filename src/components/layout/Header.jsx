@@ -26,7 +26,7 @@ export default function JiraHeader() {
 
   const pages = [
     { name: "Home", path: "/", icon: <HomeOutlinedIcon /> },
-    { name: "Boards", path: "/boards", icon: <DashboardOutlinedIcon /> },
+    { name: "Backlog", path: "/backlog", icon: <DashboardOutlinedIcon /> },
     { name: "Issues", path: "/issues", icon: <ListAltOutlinedIcon /> },
   ];
 
@@ -123,6 +123,9 @@ export default function JiraHeader() {
             onClick={goToProfile}
             sx={{ color: "white" }}
           >
+            <Typography fontWeight="regular" color="#292a54" sx={{marginRight:"6px"}}>
+              {user.name}
+            </Typography>
             <AccountCircle 
               sx={{ color: "#292a54", width: 32, height: 32 }}
             />

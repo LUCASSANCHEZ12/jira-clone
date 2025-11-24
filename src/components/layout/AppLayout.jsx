@@ -22,12 +22,12 @@ export default function AppLayout() {
         </Grid>
         <Grid
           sx={{
-            flexGrow: 1,
+            flex: 1,
             display: "flex",
             flexDirection: "column",
-            backgroundColor: "#F4F5F7",
-            minHeight: "100vh",
+            minHeight: "90vh",
             p: 3,
+            overflow: "hidden"
           }}
         >
           <Content />
