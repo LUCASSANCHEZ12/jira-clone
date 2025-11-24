@@ -2,27 +2,27 @@ import { Navigate } from "react-router";
 import { authenticateUser } from "../../services/UserService";
 import { useState } from "react";
 import { Box, Container, Paper,Typography, TextField, Button } from "@mui/material";
+import { useSelector, useDispatch } from 'react-redux'
+import { authUser } from "../../store/slices/userSlice"
 
 export default function Login() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [error, setError] = useState(false);
+    const dispatch = useDispatch();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
-        const response = await authenticateUser(email, password);
-        console.log(response);
-        if (response.ok) {
-            const data = await response.json();
-            localStorage.setItem("userEmail", email);
-            localStorage.setItem("accessToken", data.access_token);
-            localStorage.setItem("refreshToken", data.refresh_token);
+        dispatch(authUser({email, password}))
+        .unwrap()
+        .then(() => {
             setIsAuthenticated(true);
-        } else {
+        })
+        .catch(() => {
             setError(true);
-        }
+        });
     }
 
     if (isAuthenticated) {

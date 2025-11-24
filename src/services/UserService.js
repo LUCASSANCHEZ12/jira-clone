@@ -1,21 +1,24 @@
-export const authenticateUser = async (email, password) => {
+export const authenticateUser = async (form) => {
     /**
      * POST https://api.escuelajs.co/api/v1/auth/login
         Content-Type: application/json
-
         {
-        "email": "john@mail.com",
-        "password": "changeme"
+            "email": "john@mail.com",
+            "password": "changeme"
         }
     */
-    const response = await fetch('https://api.escuelajs.co/api/v1/auth/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-    });
-    return response
+    try {
+        const response = await fetch("https://api.escuelajs.co/api/v1/auth/login", {
+            method: "POST", 
+            headers:{
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(form)
+        })
+        return response
+    } catch (error) {
+        throw new Error("Invalid form")
+    }
 }
 
 export const getUserProfile = async (accessToken) => {

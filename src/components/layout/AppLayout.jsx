@@ -17,15 +17,14 @@ export default function AppLayout() {
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <Header />
       <Grid container sx={{ flexGrow: 1 }}>
-        <Grid item>
+        <Grid>
           <Sidebar />
         </Grid>
         <Grid
-          item
           sx={{
-            flexGrow: 1,                 // ocupa todo el espacio restante
+            flexGrow: 1,
             display: "flex",
-            flexDirection: "column",     // contenido vertical dentro
+            flexDirection: "column",
             backgroundColor: "#F4F5F7",
             minHeight: "100vh",
             p: 3,
