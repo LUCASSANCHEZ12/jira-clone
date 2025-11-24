@@ -13,13 +13,15 @@ import ListAltOutlinedIcon from "@mui/icons-material/ListAltOutlined";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getUserProfile } from "../../services/UserService";
+import { useSelector, useDispatch } from 'react-redux'
+import { getProfile, userData } from "../../store/slices/userSlice"
 
 export default function JiraHeader() {
-  const [user, setUser] = useState(null);
+  const user = useSelector(userData);
   const [loadingUser, setLoadingUser] = useState(true);
   const [error, setError] = useState(false);
-
+  
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const pages = [
@@ -30,24 +32,14 @@ export default function JiraHeader() {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const token = localStorage.getItem("accessToken");
-
-      if (!token) {
-        setError(true);
-        setLoadingUser(false);
-        return;
-      }
-
-      const response = await getUserProfile(token);
-
-      if (response.ok) {
-        const data = await response.json();
-        setUser(data);
-      } else {
-        setError(true);
-      }
-
-      setLoadingUser(false);
+      dispatch(getProfile()).unwrap()
+        .then(() => {
+          setLoadingUser(false);
+        })
+        .catch(() => {
+          setError(true);
+          setLoadingUser(false);
+        });
     };
 
     fetchProfile();
