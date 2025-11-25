@@ -1,13 +1,10 @@
-import { Button, Grid, Icon, Typography } from "@mui/material"
-import AddIcon from '@mui/icons-material/Add';
+import { Grid } from "@mui/material"
+import TaskList from "../Tasks/TaskList";
 
 export default function Column({tasks = [], columnKey}) {
-
     return (
         <>
-        
-            <Grid container
-                spacing={1}
+            <Grid container spacing={1}
                 sx={{
                     width: "270px", 
                     minWidth: "270px", 
@@ -21,27 +18,7 @@ export default function Column({tasks = [], columnKey}) {
                     alignItems: "flex-start",
                 }}
             >
-                <Grid size={{xs:12}} sx={{padding:"10px"}}>
-                    <Typography fontWeight="regular" sx={{textAlign:"left", color:"#787b87", fontSize:"12px"}}>
-                        {columnKey.replace("_", " ").toUpperCase()}
-                    </Typography>
-                </Grid>
-                {Array.isArray(tasks) && tasks.length > 0 ? 
-                    <>
-                        {tasks.map((task, index) => (
-                            <Grid key={index} >
-                                <div>{task.title}</div>
-                            </Grid>
-                        ))}
-                    </>
-                : (
-                    <Grid size={{xs:12}} sx={{marginBottom:"10px"}}>
-                        <Button fullWidth sx={{textTransform:"none", color:"#292a54", textAlign:"left", justifyContent:"flex-start"}} >
-                            <AddIcon sx={{marginRight:"6px"}} />
-                             Add Task
-                        </Button>
-                    </Grid>
-                )}
+                <TaskList tasks={tasks} columnKey={columnKey} />
             </Grid>
         </>
     )

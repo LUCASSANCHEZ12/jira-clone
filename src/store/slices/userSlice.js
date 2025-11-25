@@ -35,6 +35,7 @@ export const getProfile = createAsyncThunk(
             const response = await getUserProfile(accessToken);
             if (response.ok) {
                 const data = await response.json();
+                console.log("Fetched user profile data: ", data);
                 return data;
             } else {
                 throw new Error("Error fetching user profile");
@@ -46,12 +47,7 @@ export const getProfile = createAsyncThunk(
 )
 
 const initialState = {
-    user_email: "",
-    user_psswd: "",
-    user_name: "",
-    user_role: "",
-    user_avatar: "",
-    user_id: 0,
+    user_profile: {},
     access_token: "",
     refresh_token:"",
     isLoading:false,
@@ -83,10 +79,7 @@ const userSlice = createSlice({
             .addCase(getProfile.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.error = null;
-                state.user_name = action.payload.name;
-                state.user_role = action.payload.role;
-                state.user_avatar = action.payload.avatar;
-                state.user_id = action.payload.id;
+                state.user_profile = action.payload
             })
             .addCase(getProfile.pending, (state) => {
                 state.isLoading = true;
@@ -99,13 +92,5 @@ const userSlice = createSlice({
     }
 })
 
-export const userData = (state) => (
-    {
-        email: state.user.user_email,
-        name: state.user.user_name,
-        role: state.user.user_role,
-        avatar: state.user.user_avatar,
-        id: state.user.user_id,
-    }
-)
+export const userData = (state) => state.user.user_profile;
 export default userSlice.reducer;

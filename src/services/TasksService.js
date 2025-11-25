@@ -1,16 +1,20 @@
+import tasks from "./Data JSON/tasks.json"
 
 export const fetchTasks = async (accessToken) => {
-    /**
-     * GET https://api.escuelajs.co/api/v1/tasks
-     *   Authorization: Bearer {your_access_token}
-     * 
-     */
-     try {
-        const response = await fetch("https://jsonplaceholder.typicode.com/todos", {
-            method: "GET"
-        })
-        return response
-    } catch (error) {
-        throw new Error("Invalid form")
-    }
+    // using .json files to simulate API calls
+    // wait 2 seconds to simulate network delay
+    setInterval(() => {}, 2000);
+    const response = tasks;
+    return response;
+}
+
+export const createTask = async (taskData, accessToken) => {
+    // using .json files to simulate API calls
+    // wait 2 seconds to simulate network delay
+    setInterval(() => {}, 2000);
+    const response = {
+        ...taskData,
+        id: Math.floor(Math.random() * 10000) // generate random id
+    };
+    return response;
 }

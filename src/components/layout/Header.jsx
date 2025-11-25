@@ -5,7 +5,8 @@ import {
   Typography,
   Avatar,
   CircularProgress,
-  Container
+  Container,
+  Tooltip
 } from "@mui/material";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
@@ -30,10 +31,27 @@ export default function JiraHeader() {
     { name: "Issues", path: "/issues", icon: <ListAltOutlinedIcon /> },
   ];
 
+  const stringToColor = (string) => {
+    let hash = 0;
+
+    for (let i = 0; i < string.length; i++) {
+        hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    const color = "#" + 
+        ((hash >> 24) & 0xFF).toString(16).padStart(2, "0") +
+        ((hash >> 16) & 0xFF).toString(16).padStart(2, "0") +
+        ((hash >> 8) & 0xFF).toString(16).padStart(2, "0");
+
+    return color;
+  }
+
+
   useEffect(() => {
     const fetchProfile = async () => {
       dispatch(getProfile()).unwrap()
         .then(() => {
+          console.log("User profile fetched successfully: ", user);
           setLoadingUser(false);
         })
         .catch(() => {
@@ -119,17 +137,24 @@ export default function JiraHeader() {
       <Box sx={{ ml: "auto", display: "flex", alignItems: "center", gap: 2 }}>
         {loadingUser && <CircularProgress color="inherit" size={20} />}
         {!loadingUser && user && (
-          <IconButton
-            onClick={goToProfile}
-            sx={{ color: "white" }}
-          >
+          <>
             <Typography fontWeight="regular" color="#292a54" sx={{marginRight:"6px"}}>
-              {user.name}
+              {user.email}
             </Typography>
-            <AccountCircle 
-              sx={{ color: "#292a54", width: 32, height: 32 }}
-            />
-          </IconButton>
+            <Tooltip title="Actions" >
+              <IconButton
+                  onClick={goToProfile}
+                  size="small"
+                  aria-controls={open ? 'account-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? 'true' : undefined}
+                  sx={{padding:"0"}}
+              >
+                  <Avatar sx={{ width: 24, height: 24, padding:"2px", backgroundColor: stringToColor(user.name) }}>{user.name.slice(0,1).toUpperCase()}</Avatar>
+              </IconButton>
+            </Tooltip>
+
+          </>
         )}
       </Box>
     </Container>
