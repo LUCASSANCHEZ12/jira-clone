@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "email": "john@mail.com",
+    "password": "changeme",
+    "name": "John",
+    "role": "qa"
+  },
+  {
+    "id": 2,
+    "email": "alice@mail.com",
+    "password": "changeme",
+    "name": "Alice",
+    "role": "qa"
+  },
+  {
+    "id": 3,
+    "email": "anna@mail.com",
+    "password": "changeme",
+    "name": "Anna",
+    "role": "developer"
+  },
+  {
+    "id": 4,
+    "email": "michael@mail.com",
+    "password": "changeme",
+    "name": "Michael",
+    "role": "qa"
+  },
+  {
+    "id": 5,
+    "email": "robert@mail.com",
+    "password": "changeme",
+    "name": "Robert",
+    "role": "developer"
+  },
+  {
+    "id": 6,
+    "email": "sara@mail.com",
+    "password": "changeme",
+    "name": "Sara",
+    "role": "qa"
+  },
+  {
+    "id": 7,
+    "email": "eric@mail.com",
+    "password": "changeme",
+    "name": "Eric",
+    "role": "developer"
+  },
+  {
+    "id": 8,
+    "email": "linda@mail.com",
+    "password": "changeme",
+    "name": "Linda",
+    "role": "qa"
+  },
+  {
+    "id": 9,
+    "email": "marcos@mail.com",
+    "password": "changeme",
+    "name": "Marcos",
+    "role": "developer"
+  },
+  {
+    "id": 10,
+    "email": "valery@mail.com",
+    "password": "changeme",
+    "name": "Valery",
+    "role": "qa"
+  }
+]
