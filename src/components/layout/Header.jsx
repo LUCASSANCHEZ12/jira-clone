@@ -51,7 +51,6 @@ export default function JiraHeader() {
     const fetchProfile = async () => {
       dispatch(getProfile()).unwrap()
         .then(() => {
-          console.log("User profile fetched successfully: ", user);
           setLoadingUser(false);
         })
         .catch(() => {

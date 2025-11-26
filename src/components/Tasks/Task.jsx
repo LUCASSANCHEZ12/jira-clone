@@ -3,8 +3,16 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
+import { useSortable } from "@dnd-kit/sortable";
 
 export default function Task({ task }) {
+    const {
+         setNodeRef,
+         transform,
+         transition,
+         attributes,
+         listeners,
+    } = useSortable({ id: task.id });
 
     const handleClick = (event) => {
         console.log("Task clicked:", task);
@@ -28,6 +36,9 @@ export default function Task({ task }) {
 
     return (
         <Grid
+            ref={setNodeRef}
+            {...attributes} {...listeners}
+            
             container
             size={{ xs: 12 }}
             sx={{

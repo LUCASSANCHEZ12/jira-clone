@@ -6,7 +6,7 @@ import {
   isRejectedWithValue,
 } from "@reduxjs/toolkit";
 
-import { fetchTasks } from"../../services/TasksService";
+import { fetchTasks, updateTask } from"../../services/TasksService";
 
 
 export const getTasks = createAsyncThunk(
@@ -22,12 +22,25 @@ export const getTasks = createAsyncThunk(
     }
 )
 
+export const updateTaskStatus = createAsyncThunk(
+    "tasks/updateStatus",
+    async (task, {rejectWithValue}) => {
+        try {
+            const accessToken = localStorage.getItem("accessToken");
+            const response = await updateTask(accessToken, task);
+            return response
+        } catch (error) {
+            throw new Error("Error updating task status: " + error.message)
+        }
+    }
+)
 
 const initialState = {
     to_do: [],
     in_progress: [],
     qa: [],
     done: [],
+    updatedTask: {},
     isLoading:false,
     error: null
 }
@@ -59,20 +72,29 @@ const taskSlice = createSlice({
                         state.done.push(task);
                     }
                 })
-                // console.log("Tasks fetched and distributed:");
-                // console.log("To Do:", state.to_do);
-                // console.log("In Progress:", state.in_progress);
-                // console.log("QA:", state.qa);
-                // console.log("Done:", state.done);
-        })
-        .addCase(getTasks.pending, (state) => {
-            state.isLoading = true;
-            state.error = null;
-        })
-        .addCase(getTasks.rejected, (state, action) => {
-            state.isLoading = false;
-            state.error = action.payload;
-        })
+            })
+            .addCase(getTasks.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(getTasks.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+            })
+            // update task status
+            .addCase(updateTaskStatus.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.error = null;
+                state.updatedTask = action.payload;
+            })
+            .addCase(updateTaskStatus.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(updateTaskStatus.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+            })
     }    
 })
 

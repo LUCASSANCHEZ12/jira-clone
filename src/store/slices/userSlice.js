@@ -35,7 +35,6 @@ export const getProfile = createAsyncThunk(
             const response = await getUserProfile(accessToken);
             if (response.ok) {
                 const data = await response.json();
-                console.log("Fetched user profile data: ", data);
                 return data;
             } else {
                 throw new Error("Error fetching user profile");
