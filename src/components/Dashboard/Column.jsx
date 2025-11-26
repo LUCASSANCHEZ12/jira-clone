@@ -3,10 +3,7 @@ import TaskList from "../Tasks/TaskList";
 import { useDroppable } from "@dnd-kit/core";
 
 export default function Column({tasks = [], columnKey}) {
-    const { setNodeRef, isOver } = useDroppable({
-        id: columnKey,
-        data: { columnId: columnKey }
-    });
+    const { setNodeRef } = useDroppable({ id: columnKey, data: { column: columnKey } });
 
     return (
         <Grid 

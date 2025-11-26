@@ -3,70 +3,70 @@
     "id": 1,
     "email": "john@mail.com",
     "password": "changeme",
-    "user_name": "John",
-    "role": "developer"
+    "name": "John",
+    "role": "qa"
   },
   {
     "id": 2,
     "email": "alice@mail.com",
     "password": "changeme",
-    "user_name": "Alice",
+    "name": "Alice",
     "role": "qa"
   },
   {
     "id": 3,
     "email": "anna@mail.com",
     "password": "changeme",
-    "user_name": "Anna",
+    "name": "Anna",
     "role": "developer"
   },
   {
     "id": 4,
     "email": "michael@mail.com",
     "password": "changeme",
-    "user_name": "Michael",
+    "name": "Michael",
     "role": "qa"
   },
   {
     "id": 5,
     "email": "robert@mail.com",
     "password": "changeme",
-    "user_name": "Robert",
+    "name": "Robert",
     "role": "developer"
   },
   {
     "id": 6,
     "email": "sara@mail.com",
     "password": "changeme",
-    "user_name": "Sara",
+    "name": "Sara",
     "role": "qa"
   },
   {
     "id": 7,
     "email": "eric@mail.com",
     "password": "changeme",
-    "user_name": "Eric",
+    "name": "Eric",
     "role": "developer"
   },
   {
     "id": 8,
     "email": "linda@mail.com",
     "password": "changeme",
-    "user_name": "Linda",
+    "name": "Linda",
     "role": "qa"
   },
   {
     "id": 9,
     "email": "marcos@mail.com",
     "password": "changeme",
-    "user_name": "Marcos",
+    "name": "Marcos",
     "role": "developer"
   },
   {
     "id": 10,
     "email": "valery@mail.com",
     "password": "changeme",
-    "user_name": "Valery",
+    "name": "Valery",
     "role": "qa"
   }
 ]

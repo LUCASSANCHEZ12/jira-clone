@@ -5,10 +5,10 @@ import AddIcon from '@mui/icons-material/Add';
 export default function TaskList({ tasks = [], columnKey }) {
     return (
         <>
-            {tasks ? 
+            {tasks?.length > 0 ? 
                 tasks.map((task, index) => (
                     <Grid sx={{ display: "flex", flexDirection: "row" }} key={`${task.id}-index`}>
-                        <Task task={task} />
+                        <Task task={task} index={index}/>
                     </Grid>
                 ))
             : (

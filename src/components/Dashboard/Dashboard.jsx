@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import Column from './Column'
 import { Grid } from '@mui/material'
 import { useSelector, useDispatch } from 'react-redux'
-import { getTasks, tasks_list, updateTaskStatus } from "../../store/slices/taskSlice"
+import { getTasks, tasks_list, updateTaskStatus, searchById, reorderTasks } from "../../store/slices/taskSlice"
 import {
   DndContext,
   DragOverlay,
@@ -18,8 +18,9 @@ import Task from '../Tasks/Task'
 export default function Dashboard({}) {
     const dispatch = useDispatch();
     const [error, setError] = useState(null);
-    const data = useSelector(tasks_list) 
-    const [activeTask, setActiveTask] = useState(null);
+    //const data = useSelector(tasks_list)
+    const { to_do, in_progress, qa, done } = useSelector(tasks_list);
+    const activeTask = useSelector((state) => state.task.selectedTask);
 
     useEffect(() => {
         dispatch(getTasks()).unwrap()
@@ -31,76 +32,69 @@ export default function Dashboard({}) {
         })
     },[])
 
-    const findTaskById = (id) => {
-        for (const col of Object.keys(data)) {
-            const found = data[col].find(t => t.id === id);
-            if (found) return found
-        }
-        return null
+   
+    const FLOW = {
+        to_do: "in_progress",
+        in_progress: "qa",
+        qa: "done",
+        done: null
     };
+
+    const onDragStart = ({ active }) => {
+        dispatch(searchById(active.id)).unwrap();
+    }
 
     const onDragEnd = ({ active, over }) => {
         if (!over) return
 
-        const fromCol = Object.keys(data).find(
-            (columnKey) =>
-                data[columnKey].some((task) => task.id === active.id)
-        )
+        const fromColumn = active.data.current.column;
+        const toColumn = over.data.current.column;
 
-        const toCol = over.data.current?.columnId
+        // // if it's the same column, just reorder
+        if (fromColumn === toColumn) {
+            const fromIndex = active.data.current.index;
+            const toIndex = over.data.current.index;
+            dispatch(
+                reorderTasks({
+                    column: fromColumn.replace("-", "_"),
+                    fromIndex,
+                    toIndex
+                })
+            );
+        }
 
-        if (!fromCol || !toCol) return
+        // validate flow
+        if (activeTask?.next_state !== toColumn){
+            console.log("Invalid move from", fromColumn, "to", toColumn)
+            return;
+        }
 
-        const fromList = Array.from(data[fromCol])
-        const toList = Array.from(data[toCol])
-
-        const movingTask = fromList.find((t) => t.id === active.id)
-
-        // Remove task from original list
-        const fromIndex = fromList.findIndex((t) => t.id === active.id)
-        fromList.splice(fromIndex, 1);
-
-        // Then, insert into new list at the correct position
-        const overIndex = toList.findIndex((t) => t.id === over.id)
-        const insertIndex = overIndex === -1 ? toList.length : overIndex
-
-        toList.splice(insertIndex, 0, {
-            ...movingTask,
-            status: toCol, // change status to new column
-        })
+        const role = localStorage.getItem("userRole");
+        // validate role permissions
+        if (toColumn === "done" && role === "developer"){
+            // developer can't move to in-progress
+            
+            return;
+        }
 
         // Update the Redux store with the new status
         dispatch(updateTaskStatus({
             id: active.id,
-            status: toCol
-        }))
+            status: toColumn
+        })).unwrap()
+        .then(() => {
+            dispatch(getTasks());
+        })
 
-        // Refresh tasks after status update
-        dispatch(getTasks())
-
-        console.log("Dragged from", fromCol, "to", toCol)
-        console.log("Data after drag:", data)
-
-        setActiveTask(null)
     }
 
     return (
         <Grid container spacing={2} sx={{display:"flex", flexDirection:"row", justifyContent:"flex-start"}}>
-            <DndContext collisionDetection={closestCenter}  onDragStart={({ active }) => {  setActiveTask(active.id)}} onDragEnd={onDragEnd}>           
-                {Object.keys(data).map((columnKey) => (
-                    <SortableContext
-                        key={columnKey}
-                        items={data[columnKey].map(task => task.id)}
-                        strategy={verticalListSortingStrategy}
-                    >
-                        <Column key={columnKey} columnKey={columnKey} tasks={data[columnKey]}/>
-                    </SortableContext>
-                ))}
-                <DragOverlay>
-                    {activeTask ? (
-                        <Task task={findTaskById(activeTask)} overlay />
-                    ) : null}
-                </DragOverlay>
+            <DndContext collisionDetection={closestCenter} onDragStart={onDragStart} onDragEnd={onDragEnd}>        
+                <Column key="to-do" columnKey='to-do' tasks={to_do}/>
+                <Column key='in-progress' columnKey='in-progress' tasks={in_progress}/>
+                <Column key='qa' columnKey='qa' tasks={qa}/>
+                <Column key='done' columnKey='done' tasks={done}/>
             </DndContext>
         </Grid>
     )

@@ -32,15 +32,11 @@ export const getProfile = createAsyncThunk(
     async (_, {rejectWithValue}) => {
         try {
             const accessToken = localStorage.getItem("accessToken");
-            const response = await getUserProfile(accessToken);
-            if (response.ok) {
-                const data = await response.json();
-                return data;
-            } else {
-                throw new Error("Error fetching user profile");
-            }
+            const userEmail = localStorage.getItem("userEmail");
+            const response = await getUserProfile(accessToken, userEmail);
+            return response;
         } catch (error) {
-            return rejectWithValue("something happend: " + error.message);
+            throw new Error("Error fetching user profile");
         }
     }
 )

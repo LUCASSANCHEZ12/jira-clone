@@ -3,16 +3,13 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
-import { useSortable } from "@dnd-kit/sortable";
+import { useDraggable } from "@dnd-kit/core";
 
-export default function Task({ task }) {
-    const {
-         setNodeRef,
-         transform,
-         transition,
-         attributes,
-         listeners,
-    } = useSortable({ id: task.id });
+export default function Task({ task, index }) {
+    const { attributes, listeners, setNodeRef, transform } = useDraggable({
+        id: task.id,
+        data: { column: task.status, index }
+    });
 
     const handleClick = (event) => {
         console.log("Task clicked:", task);
@@ -36,12 +33,11 @@ export default function Task({ task }) {
 
     return (
         <Grid
-            ref={setNodeRef}
-            {...attributes} {...listeners}
-            
+            ref={setNodeRef} {...listeners} {...attributes}
             container
             size={{ xs: 12 }}
             sx={{
+            transform: transform ? `translate(${transform.x}px, ${transform.y}px)` : undefined,
             backgroundColor: "#fff",
             borderRadius: "6px",
             padding: "10px",
@@ -73,7 +69,6 @@ export default function Task({ task }) {
                     </Typography>
                     <Tooltip title={task.assignee} >
                         <IconButton
-                            onClick={handleClick}
                             size="small"
                             aria-controls={open ? 'account-menu' : undefined}
                             aria-haspopup="true"
