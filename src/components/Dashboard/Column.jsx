@@ -2,9 +2,9 @@ import { Grid, Typography } from "@mui/material"
 import TaskList from "../Tasks/TaskList";
 import { useDroppable } from "@dnd-kit/core";
 
-export default function Column({tasks = [], columnKey}) {
+export default function Column({tasks = [], columnKey, setOpenModal}) {
     const { setNodeRef } = useDroppable({ id: columnKey, data: { column: columnKey } });
-
+    
     return (
         <Grid 
             ref={setNodeRef}
@@ -28,7 +28,7 @@ export default function Column({tasks = [], columnKey}) {
                     {columnKey.replace("_", " ").toUpperCase()}
                 </Typography>
             </Grid>
-            <TaskList tasks={tasks} columnKey={columnKey} />
+            <TaskList tasks={tasks} columnKey={columnKey} setOpenModal={setOpenModal}/>
         </Grid>
     )
 }

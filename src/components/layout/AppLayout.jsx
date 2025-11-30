@@ -9,7 +9,10 @@ export default function AppLayout() {
   const navigate = useNavigate();
 
   const logout = () => {
-    localStorage.removeItem("auth");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userRole");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
     navigate("/login");
   };
 
@@ -32,9 +35,7 @@ export default function AppLayout() {
         >
           <Content />
         </Grid>
-      
       </Grid>
-      
     </Box>
   );
 }

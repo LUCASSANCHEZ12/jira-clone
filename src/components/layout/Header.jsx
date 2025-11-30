@@ -6,16 +6,16 @@ import {
   Avatar,
   CircularProgress,
   Container,
-  Tooltip
+  Tooltip,
 } from "@mui/material";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import ListAltOutlinedIcon from "@mui/icons-material/ListAltOutlined";
-import AccountCircle from "@mui/icons-material/AccountCircle";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux'
 import { getProfile, userData } from "../../store/slices/userSlice"
+import { stringToColor } from "../common/stringToColor";
 
 export default function JiraHeader() {
   const user = useSelector(userData);
@@ -30,22 +30,6 @@ export default function JiraHeader() {
     { name: "Backlog", path: "/backlog", icon: <DashboardOutlinedIcon /> },
     { name: "Issues", path: "/issues", icon: <ListAltOutlinedIcon /> },
   ];
-
-  const stringToColor = (string) => {
-    let hash = 0;
-
-    for (let i = 0; i < string.length; i++) {
-        hash = string.charCodeAt(i) + ((hash << 5) - hash);
-    }
-
-    const color = "#" + 
-        ((hash >> 24) & 0xFF).toString(16).padStart(2, "0") +
-        ((hash >> 16) & 0xFF).toString(16).padStart(2, "0") +
-        ((hash >> 8) & 0xFF).toString(16).padStart(2, "0");
-
-    return color;
-  }
-
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -152,7 +136,6 @@ export default function JiraHeader() {
                   <Avatar sx={{ width: 24, height: 24, padding:"2px", backgroundColor: stringToColor(user.name) }}>{user.name.slice(0,1).toUpperCase()}</Avatar>
               </IconButton>
             </Tooltip>
-
           </>
         )}
       </Box>

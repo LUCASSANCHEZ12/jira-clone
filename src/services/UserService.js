@@ -10,20 +10,25 @@ export const authenticateUser = async (form) => {
     // wait 2 seconds to simulate network delay
     setInterval(() => {}, 2000);
     const usersData = localStorage.getItem(USERS_STORAGE_KEY);
+    console.log("Users data:", form);
     if (!usersData) throw new Error("No users data found");
+    const { email, password } = form;
     const users = JSON.parse(usersData);
-    const user = users.find(u => u.email === form.email && u.password === form.password);
+    const user = users.find(u => u.email === email && u.password === password);
+    console.log("Authenticated user:", user);
     if (!user) throw new Error("Invalid email or password");
     const savedToken = localStorage.getItem("accessToken");
     if (!savedToken) localStorage.setItem("accessToken", "dummy_token_12345");
 
-    // save role in local storage
+    // save role and email in local storage
     localStorage.setItem("userRole", user.role);
-
-    const savedRefreshToken = localStorage.getItem("accessToken");
+    localStorage.setItem("userEmail", user.email);
+    
+    const savedRefreshToken = localStorage.getItem("refreshToken");
     if (!savedRefreshToken) localStorage.setItem("refreshToken", "dummy_token_12345");
     return {
-        accessToken: localStorage.getItem("accessToken")
+        accessToken: localStorage.getItem("accessToken"),
+        refreshToken: localStorage.getItem("refreshToken")
     };
 }
 

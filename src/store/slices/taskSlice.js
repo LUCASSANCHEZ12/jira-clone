@@ -6,7 +6,7 @@ import {
   isRejectedWithValue,
 } from "@reduxjs/toolkit";
 import { arrayMove } from "@dnd-kit/sortable";
-import { fetchTasks, updateTask, getById } from"../../services/TasksService";
+import { fetchTasks, updateTask, getById, assignUser, postTask } from"../../services/TasksService";
 
 export const searchById = createAsyncThunk(
     "tasks/fetchById",
@@ -56,6 +56,32 @@ export const updateTaskStatus = createAsyncThunk(
             return response
         } catch (error) {
             throw new Error("Error updating task status: " + error.message)
+        }
+    }
+)
+
+export const assignTaskToUser = createAsyncThunk(
+    "tasks/assignUser",
+    async ({taskId, userName}, {rejectWithValue}) => {
+        try {
+            const accessToken = localStorage.getItem("accessToken");
+            const response = await assignUser(accessToken, {taskId, userName});
+            return response
+        } catch (error) {
+            throw new Error("Error assigning user to task: " + error.message)
+        }   
+    }
+)
+
+export const create_task = createAsyncThunk(
+    "tasks/create",
+    async (taskData, {rejectWithValue}) => {
+        try {
+            const accessToken = localStorage.getItem("accessToken");
+            const response = await postTask(accessToken, taskData);
+            return response
+        } catch (error) {
+            throw new Error("Error creating task: " + error.message)
         }
     }
 )
@@ -152,6 +178,37 @@ const taskSlice = createSlice({
                 state.isLoading = false;
                 state.error = action.payload;
             })
+
+            // assign user to task
+            .addCase(assignTaskToUser.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.error = null;
+                state.updatedTask = action.payload;
+            })
+            .addCase(assignTaskToUser.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(assignTaskToUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+            })   
+            
+            // assign user to task
+            .addCase(create_task.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.error = null;
+                state.selectedTask = action.payload;
+            })
+            .addCase(create_task.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(create_task.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+            })
+
     }    
 })
 

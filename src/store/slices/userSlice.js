@@ -12,17 +12,9 @@ export const authUser = createAsyncThunk(
     async (user_form, {rejectWithValue}) => {
         try {
             const response = await authenticateUser(user_form);
-            if (response.ok) {
-                const data = await response.json();
-                localStorage.setItem("userEmail", email);
-                localStorage.setItem("accessToken", data.access_token);
-                localStorage.setItem("refreshToken", data.refresh_token);
-                return data;
-            } else {
-                throw new Error("Error authenticating user");
-            }
+            return response;
         } catch (error) {
-            throw new Error("something happend")
+            throw new Error("Error authenticating user")
         }
     }
 )

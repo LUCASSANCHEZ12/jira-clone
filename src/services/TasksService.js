@@ -9,7 +9,7 @@ export const saveTasksLS = (tasks) => {
 
 const saved = localStorage.getItem(STORAGE_KEY);
 if (!saved){
-    saveTasksLS(tasks.slice(0, 3));
+    saveTasksLS(tasks.slice(0, 10));
 } // initialize localStorage with first 3 tasks
 
 export const fetchTasks = async (accessToken) => {
@@ -23,7 +23,6 @@ export const fetchTasks = async (accessToken) => {
 export const createTask = async (taskData, accessToken) => {
     // using .json files to simulate API calls
     // wait 2 seconds to simulate network delay
-    setInterval(() => {}, 2000);
     const response = {
         ...taskData,
         id: Math.floor(Math.random() * 10000) // generate random id
@@ -50,9 +49,37 @@ export const updateTask = async (accessToken, { id, status }) => {
 export const getById = async (accessToken, id) => {
     // using .json files to simulate API calls
     // wait 2 seconds to simulate network delay
-    setInterval(() => {}, 2000);
     const tasks = await fetchTasks(accessToken);
     const task = tasks.find((task) => task.id === id);
     return task;
 }
 
+export const assignUser = async (accessToken, { taskId, userName }) => {
+    // using .json files to simulate API calls
+    // wait 2 seconds to simulate network delay
+    // get local tasks
+    const tasks = await fetchTasks();
+    const updatedTasks = tasks.map(task =>
+        task.id === taskId
+            ? { ...task, assignee: userName }
+            : task
+    );
+    // save state in localStorage
+    saveTasksLS(updatedTasks);
+
+    return updatedTasks.find(t => t.id === taskId);
+}
+
+export const postTask = async (accessToken, taskData) => {
+    const tasks = await fetchTasks();
+    const newTask = {
+        ...taskData,
+        id: `SMQ-${tasks.length +1 }`,
+        status: "to-do",
+        next_state: "in-progress",
+    }
+    const updatedTasks = [...tasks, newTask];
+    // save state in localStorage
+    saveTasksLS(updatedTasks);
+    return newTask;
+}

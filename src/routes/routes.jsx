@@ -3,6 +3,8 @@ import AppLayout from "../components/layout/AppLayout";
 import ProtectedRoute from "../components/layout/ProtectedRoute";
 import Login from "../components/LoginPage/Login";
 import Dashboard from "../components/Dashboard/Dashboard";
+import { Navigate } from "react-router";
+import NotFound from "../components/common/NotFoundRoute";
 
 export const routes = [
   {
@@ -10,7 +12,7 @@ export const routes = [
     element: <Login />,
   },
   {
-    path: "/",
+    path: "/project",
     element: (
       <ProtectedRoute>
         <AppLayout />
@@ -18,14 +20,23 @@ export const routes = [
     ),
     children: [
       {
-        path: "project/dashboard",
+        path: "dashboard",
         element: (
           <Suspense fallback={<p>Loading...</p>}>
             <Dashboard />
           </Suspense>
         ),
       },
+      {
+        path: "*",
+        element: <NotFound/>
+      }
     ],
+  }, 
+  {
+    // redirect any rout that is not matching  
+    path: "*",
+    element: <Navigate to="/project/dashboard" replace />,
   }
   
 ];
