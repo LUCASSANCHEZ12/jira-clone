@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import Column from './Column'
-import { Grid } from '@mui/material'
+import { Grid, Box } from '@mui/material'
 import { useSelector, useDispatch } from 'react-redux'
 import { getTasks, tasks_list, updateTaskStatus, searchById, reorderTasks } from "../../store/slices/taskSlice"
 import {
@@ -80,7 +80,17 @@ export default function Dashboard({}) {
     }
 
     return (
-        <Grid container spacing={2} sx={{display:"flex", flexDirection:"row", justifyContent:"flex-start"}}>
+        <Box
+            sx={{
+                display: "flex",
+                flexDirection: "row",
+                gap: "20px",             // spacing entre columnas (px)
+                overflowX: "auto",
+                overflowY: "hidden",
+                alignItems: "flex-start",
+                pb: 2,
+            }}
+        >
             <DndContext collisionDetection={closestCenter} onDragStart={onDragStart} onDragEnd={onDragEnd}>        
                 <Column key="to-do" columnKey='to-do' tasks={to_do} setOpenModal={setOpenModal}/>
                 <Column key='in-progress' columnKey='in-progress' tasks={in_progress} setOpenModal={setOpenModal}/>
@@ -91,6 +101,6 @@ export default function Dashboard({}) {
             <SuccessSnackbar />
             <ErrorSnackbar />
             <NormalSnackbar />
-        </Grid>
+        </Box>
     )
 }
