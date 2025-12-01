@@ -10,18 +10,18 @@ import {
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import ListAltOutlinedIcon from "@mui/icons-material/ListAltOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import LogoutIcon from '@mui/icons-material/Logout';
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
 
 const sidebarItems = [
   { name: "Home", icon: <HomeOutlinedIcon />, path: "/" },
-  { name: "Boards", icon: <DashboardOutlinedIcon />, path: "/boards" },
-  { name: "Issues", icon: <ListAltOutlinedIcon />, path: "/issues" },
-  { name: "Settings", icon: <SettingsOutlinedIcon />, path: "/settings" },
+  { name: "Dashboard", icon: <DashboardOutlinedIcon />, path: "/project/dashboard" },
+  { name: "Backlog", icon: <ListAltOutlinedIcon />, path: "/backlog" },
+  { name: "Logout", icon: <LogoutIcon />, path: "/settings" },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({logout}) {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
@@ -65,6 +65,7 @@ export default function Sidebar() {
             arrow
           >
             <ListItemButton
+              onClick={() => {if(item.name === "Logout") logout()}}
               component={NavLink}
               to={item.path}
               sx={{

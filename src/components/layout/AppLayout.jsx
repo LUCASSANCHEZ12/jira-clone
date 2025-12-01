@@ -1,5 +1,5 @@
-import { AppBar, Box, Button, Grid, Toolbar, Typography } from "@mui/material";
-import { Outlet, Link, Navigate, useNavigate, NavLink } from "react-router-dom";
+import { Box, Grid } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 import Header from "./Header";
 import Content from "./Content";
@@ -9,19 +9,23 @@ export default function AppLayout() {
   const navigate = useNavigate();
 
   const logout = () => {
+    console.log("Logging out...");
     localStorage.removeItem("userEmail");
     localStorage.removeItem("userRole");
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
-    navigate("/login");
+    localStorage.removeItem("users_data");
+    localStorage.removeItem("tasks_data");
+    // refresh window
+    window.location.reload();
   };
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-      <Header />
+      <Header logout={logout}/>
       <Grid container sx={{ flexGrow: 1 }}>
         <Grid>
-          <Sidebar />
+          <Sidebar logout={logout}/>
         </Grid>
         <Grid
           sx={{

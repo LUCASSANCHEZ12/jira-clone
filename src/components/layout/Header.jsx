@@ -7,6 +7,13 @@ import {
   CircularProgress,
   Container,
   Tooltip,
+  Paper,
+  Menu,
+  MenuList,
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
+  Divider,
 } from "@mui/material";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
@@ -16,11 +23,22 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux'
 import { getProfile, userData } from "../../store/slices/userSlice"
 import { stringToColor } from "../common/stringToColor";
+import { Cloud, ContentCopy, ContentCut, Logout } from "@mui/icons-material";
 
-export default function JiraHeader() {
+export default function JiraHeader({logout}) {
   const user = useSelector(userData);
   const [loadingUser, setLoadingUser] = useState(true);
   const [error, setError] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleOpenMenu = (event) => {
+      setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+      setAnchorEl(null);
+  };
   
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -45,11 +63,6 @@ export default function JiraHeader() {
 
     fetchProfile();
   }, []);
-
-  const goToProfile = () => {
-    if (!user?.email) return;
-    navigate(`/profile/${user.email}`);
-  };
 
   if (error) {
     return (
@@ -124,9 +137,9 @@ export default function JiraHeader() {
             <Typography fontWeight="regular" color="#292a54" sx={{marginRight:"6px"}}>
               {user.email}
             </Typography>
-            <Tooltip title="Actions" >
+            <Tooltip title={user.email} >
               <IconButton
-                  onClick={goToProfile}
+                  onClick={handleOpenMenu}
                   size="small"
                   aria-controls={open ? 'account-menu' : undefined}
                   aria-haspopup="true"
@@ -136,6 +149,52 @@ export default function JiraHeader() {
                   <Avatar sx={{ width: 24, height: 24, padding:"2px", backgroundColor: stringToColor(user.name) }}>{user.name.slice(0,1).toUpperCase()}</Avatar>
               </IconButton>
             </Tooltip>
+            <Menu
+              id="header-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleCloseMenu}
+              onClick={(e) => e.stopPropagation()}
+              slotProps={{
+              paper: {
+                  sx: {
+                      maxWidth: '100%',
+                      width: "320px",
+                      overflowY: "auto",
+                  },
+              }}}
+            >
+              <MenuItem>
+                <Box sx={{ display: "flex", flexDirection: "row", width:"100%",alignItems: "center"}}>
+                  <Avatar
+                    sx={{
+                        width: 44,
+                        height: 44,
+                        padding: "2px",
+                        fontSize: "32px",
+                        backgroundColor: stringToColor(user.name),
+                    }}
+                  >
+                      {user.name.slice(0, 1).toUpperCase()}
+                  </Avatar>
+                  <Box sx={{ marginLeft: "8px" }}>
+                    <Typography sx={{ fontSize: "20px" }}>
+                        {user.name}
+                    </Typography>
+                    <Typography sx={{  fontSize: "14px" }}>
+                        {user.email}
+                    </Typography>
+                  </Box>
+                </Box>
+              </MenuItem>
+              <Divider />
+              <MenuItem onClick={logout}>
+                <ListItemIcon>
+                  <Logout fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Logout</ListItemText>
+              </MenuItem>
+            </Menu>
           </>
         )}
       </Box>
