@@ -10,7 +10,6 @@ export const showSnackbar = createAsyncThunk(
     "snackbar/show",
     async ({ message, type}, {rejectWithValue}) => {
         try {
-            console.log("Showing snackbar:", message, type);
             return { message, type};
         }
         catch (error) {

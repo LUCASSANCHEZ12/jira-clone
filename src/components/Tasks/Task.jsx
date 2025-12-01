@@ -81,7 +81,7 @@ function Task({ task, index }) {
                 </Typography>
             </Grid>
 
-            <Grid size={{xs:12}} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <Grid size={{xs:12}} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} >
                 <Typography sx={{ fontSize: "12px", color: "#666", display: "flex", justifyContent:"center", alignItems:"center", borderRadius: "4px" }} {...listeners}>
                     {task.id}
                 </Typography>

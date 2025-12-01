@@ -12,13 +12,13 @@ export default function Column({tasks = [], columnKey, setOpenModal}) {
             spacing={1}
             sx={{
                 width: "270px", 
+                maxWidth: "270px", 
                 minWidth: "270px", 
-                maxWidth: "270px",  
+                height:"90vh",
                 backgroundColor:"#f8f8f8",
                 padding:"10px",
                 borderRadius:"4px",
-                minHeight:"90vh",
-                display: "flex",
+                display: "inline-block",
                 flexDirection: "column",
                 alignItems: "flex-start",
             }}

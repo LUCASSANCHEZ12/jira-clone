@@ -10,12 +10,10 @@ export const authenticateUser = async (form) => {
     // wait 2 seconds to simulate network delay
     setInterval(() => {}, 2000);
     const usersData = localStorage.getItem(USERS_STORAGE_KEY);
-    console.log("Users data:", form);
     if (!usersData) throw new Error("No users data found");
     const { email, password } = form;
     const users = JSON.parse(usersData);
     const user = users.find(u => u.email === email && u.password === password);
-    console.log("Authenticated user:", user);
     if (!user) throw new Error("Invalid email or password");
     const savedToken = localStorage.getItem("accessToken");
     if (!savedToken) localStorage.setItem("accessToken", "dummy_token_12345");
