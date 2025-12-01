@@ -1,16 +1,76 @@
-# React + Vite
+# React Jira Clone – Personal Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a **personal project** built with **React + Vite**, inspired by **Jira**.  
+The goal is to recreate a simplified task-management experience with a clean UI, drag-and-drop interaction, and a very lightweight authentication flow.
 
-Currently, two official plugins are available:
+The application includes:
+- A **simple login page** (no backend required).
+- A **Kanban-style board** with draggable tasks.
+- State persisted in **localStorage** for easy testing.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🚀 Tech Stack & Dependencies
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### **Frontend**
+- **React 19** – UI library.
+- **React DOM** – Rendering for web applications.
+- **React Router / React Router DOM** – For client-side routing.
 
-## Expanding the ESLint configuration
+### **State Management**
+- **Redux Toolkit**
+- **React Redux**
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### **Styling**
+- **Material UI (MUI)**  
+  - `@mui/material` – Core components  
+  - `@mui/icons-material` – Icons  
+  - `@emotion/react`, `@emotion/styled` – Emotion engine used by MUI  
+- **styled-components** – Additional styling flexibility.
+
+### **Drag & Drop**
+Using the **@dnd-kit** ecosystem:
+- `@dnd-kit/core` – Base drag-and-drop engine  
+- `@dnd-kit/sortable` – Utilities for sortable lists  
+- `@dnd-kit/modifiers` – Behavior modifiers (snap, restrict, etc.)
+
+### **Development Tools**
+- **Vite** – Fast dev server & bundler.
+- **ESLint** (+ plugins) – Linting and code quality.
+- **@vitejs/plugin-react** – React fast refresh + JSX support.
+
+---
+
+## 📦 Project Setup & Scripts
+
+Make sure you have **Node.js** and **npm** installed.
+
+### **Install dependencies**
+```bash
+npm install
+```
+
+## Start development server
+```bash
+npm run dev
+```
+Runs the project at `http://localhost:5173/`.
+
+## Build for production
+```bash
+npm run build
+```
+
+## 🔐 Login Credentials & Data Storage
+This project **does not use a backend.**
+All information (user session, tasks, board state) is stored in localStorage.
+
+To log in, use the following test credentials:
+
+```plaintext
+Email: john@mail.com
+Password: changeme
+```
+## 👤 Author
+[LUCASSANCHEZ12](https://github.com/LUCASSANCHEZ12/)
+
